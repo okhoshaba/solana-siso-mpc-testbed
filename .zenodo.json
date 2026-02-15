@@ -1,0 +1,13 @@
+{
+  "title": "Solana SISO MPC Testbed: Private Cluster + Loadgen + Datasets",
+  "upload_type": "software",
+  "description": "Reproducible testbed and datasets for studying a private Solana cluster as a controlled dynamical system (SISO stage).",
+  "creators": [
+    {
+      "name": "Oleksandr, Khoshaba",
+      "affiliation": "VNTU/Lab"
+    }
+  ],
+  "license": "MIT",
+  "keywords": ["Solana", "MPC", "control", "system identification", "ARX", "blockchain performance"]
+}

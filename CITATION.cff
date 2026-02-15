@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this testbed, datasets, or code, please cite it as below."
+title: "Solana SISO MPC Testbed: Private Cluster, Load Generator, and Identification Datasets"
+type: software
+authors:
+  - given-names: "Oleksandr"
+    family-names: "Khoshaba"
+    affiliation: "VNTU / Lab]"
+    orcid: "0000-0001-5375-6280"
+version: "0.1.0"
+date-released: "2026-02-14"
+url: "[repository-or-zenodo-url]"
+license: "MIT"
+keywords:
+  - Solana
+  - blockchain
+  - performance
+  - control
+  - MPC
+  - ARX
+  - system identification
