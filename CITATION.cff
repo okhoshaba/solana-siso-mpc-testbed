@@ -5,12 +5,12 @@ type: software
 authors:
   - given-names: "Oleksandr"
     family-names: "Khoshaba"
-    affiliation: "VNTU / Lab]"
+    affiliation: "National Technical University"
     orcid: "0000-0001-5375-6280"
 version: "0.1.0"
 date-released: "2026-02-14"
-url: "[repository-or-zenodo-url]"
-license: "MIT"
+url: "https://github.com/okhoshaba/solana-siso-mpc-testbed"
+license: "Apache-2.0"
 keywords:
   - Solana
   - blockchain

@@ -55,7 +55,6 @@ Reproducibility
 See REPRODUCIBILITY.md for exact versions, commands, and expected outputs.
 
 License
-
 Code: Apache-2.0
 Data: CC-BY-4.0
 

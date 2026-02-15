@@ -1,51 +1,38 @@
 project:
   name: "solana-siso-mpc-testbed"
   stage: "SISO identification (ARX baseline)"
-  date: "2026-02-14"
-  timezone: "Europe/Kiev"
+  date: "2026-02-15"
+  timezone: "Europe/Kyiv"
 
 hosts:
-  fedora:
-    role: "controller+loadgen+dashboard"
+  controller:
+    role: "loadgen + dashboard + analysis"
+    os: "Fedora"
     ports:
       loadgen_http: 7070
       dashboard_http: 8050
-      ssh_forward_prom: 9464
       ssh_forward_rpc: 8899
-  vm:
-    role: "solana plant"
+      ssh_forward_prom: 9464
+  plant_vm:
+    role: "Solana validator + exporter"
     ports:
       rpc: 8899
       exporter_prom: 9464
-      geyser_grpc: 10000
 
 signals:
   u_cmd:
-    description: "Commanded tx rate (lambda) set via POST /rate"
     unit: "tx/s"
+    description: "Commanded tx rate set via loadgen control API"
   u_ach:
-    description: "Achieved tx rate computed as Δsent_total/Δt"
     unit: "tx/s"
+    description: "Achieved tx rate computed from Δsent_total/Δt"
   lat_p99:
-    description: "Prometheus summary quantile for tx confirmation latency"
     unit: "s"
+    description: "Tx confirmation latency p99 from Prometheus metric"
     metric: 'solana_transaction_latency_seconds{quantile="0.99"}'
 
-datasets:
-  - name: "knee_step_test"
-    raw: "data/raw/[step_test_..._knee.csv]"
-    processed: "data/processed/[arx_dataset_...csv]"
-    hold_s: 60
-    sample_s: 2
-    levels: [50,150,300,450,600,800,1000,800,600,450,300,150,50]
-
-model:
-  arx:
-    na: 2
-    nb: 2
-    nk: 1
-    output: "results/arx_model.json"
-
-notes:
-  - "SSH tunnel stability is required for PROM_URL and RPC forward."
-  - "Primary SISO output in this stage is u_ach; latency is tracked as auxiliary KPI."
+conventions:
+  raw_csv:
+    required_columns: ["t_sec","u_cmd","sent_total","u_ach","lat_p99"]
+  processed_csv:
+    required_columns: ["t_sec","u_cmd","u_ach","lat_p99"]
