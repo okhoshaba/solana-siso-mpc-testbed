@@ -2,16 +2,25 @@
 import argparse
 import json
 import re
-import sys
 import time
 import urllib.request
 from typing import Any, Dict, Optional, Tuple
 
 DEFAULT_RATE_KEY = "rate"
 
-CAND_SENT_TOTAL = ["sent_total", "sentTotal", "total_sent", "totalSent", "sent"]
-CAND_INFLIGHT   = ["inflight", "in_flight", "inFlight", "pending", "outstanding"]
-CAND_ERR_PSEC   = ["err_per_sec", "errors_per_sec", "errPerSec", "error_rate", "errorsPerSec"]
+# Try hard to find these in /stats JSON (including nested)
+CAND_SENT_TOTAL = [
+    "sent_total", "sentTotal", "total_sent", "totalSent",
+    "sent_ok_total", "sent_success_total", "sent_successful_total",
+    "sent_count", "sentCount", "tx_sent_total", "transactions_sent_total",
+    "sent", "total"
+]
+CAND_INFLIGHT = ["inflight", "in_flight", "inFlight", "pending", "outstanding"]
+CAND_ERR_PSEC = ["err_per_sec", "errors_per_sec", "errPerSec", "error_rate", "errorsPerSec", "errRate"]
+CAND_ACH_REPORTED = [
+    "sent_per_sec", "sent_per_sec_reported", "sentPerSec", "tps",
+    "throughput", "achieved_rate", "achievedRate", "u_ach"
+]
 
 def http_get(url: str, timeout: float = 2.5) -> str:
     req = urllib.request.Request(url, method="GET")
@@ -25,49 +34,76 @@ def http_post_json(url: str, payload: Dict[str, Any], timeout: float = 2.5) -> s
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.read().decode("utf-8", errors="replace")
 
+def as_float(v: Any) -> Optional[float]:
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, str):
+        s = v.strip()
+        if not s:
+            return None
+        try:
+            return float(s)
+        except Exception:
+            return None
+    return None
+
 def find_key_recursive(obj: Any, candidates: list[str]) -> Optional[float]:
-    # Returns first numeric value found for any candidate key (recursive in dict/list)
+    """
+    Return first numeric value found for any candidate key (recursive in dict/list),
+    accepts numeric strings too.
+    """
     if isinstance(obj, dict):
+        # direct match
         for k in candidates:
-            if k in obj and isinstance(obj[k], (int, float)):
-                return float(obj[k])
-        # case-insensitive
+            if k in obj:
+                got = as_float(obj[k])
+                if got is not None:
+                    return got
+
+        # case-insensitive key match
         lower_map = {str(k).lower(): k for k in obj.keys()}
         for k in candidates:
             lk = k.lower()
             if lk in lower_map:
-                v = obj[lower_map[lk]]
-                if isinstance(v, (int, float)):
-                    return float(v)
+                got = as_float(obj[lower_map[lk]])
+                if got is not None:
+                    return got
+
         # recurse
         for v in obj.values():
             got = find_key_recursive(v, candidates)
             if got is not None:
                 return got
+
     elif isinstance(obj, list):
         for it in obj:
             got = find_key_recursive(it, candidates)
             if got is not None:
                 return got
+
     return None
 
-def parse_stats(stats_text: str) -> Tuple[Optional[int], Optional[float], Optional[float]]:
+def parse_stats(stats_text: str) -> Tuple[Optional[int], Optional[float], Optional[float], Optional[float]]:
+    """
+    Returns: sent_total (int), inflight, err_per_sec, u_ach_reported
+    """
     try:
         obj = json.loads(stats_text)
     except Exception:
-        return None, None, None
+        return None, None, None, None
 
     sent = find_key_recursive(obj, CAND_SENT_TOTAL)
     infl = find_key_recursive(obj, CAND_INFLIGHT)
     err  = find_key_recursive(obj, CAND_ERR_PSEC)
+    ach  = find_key_recursive(obj, CAND_ACH_REPORTED)
 
     sent_i = int(sent) if sent is not None else None
-    return sent_i, infl, err
+    return sent_i, infl, err, ach
 
 def parse_lat_p99(metrics_text: str, metric_name: str, quantile: str) -> Optional[float]:
-    # Example line:
-    # solana_transaction_latency_seconds{quantile="0.99",...} 0.123
-    pat = re.compile(rf'^{re.escape(metric_name)}\{{[^}}]*quantile="{re.escape(quantile)}"[^}}]*\}}\s+([0-9eE\.\+\-]+)\s*$')
+    pat = re.compile(
+        rf'^{re.escape(metric_name)}\{{[^}}]*quantile="{re.escape(quantile)}"[^}}]*\}}\s+([0-9eE\.\+\-]+)\s*$'
+    )
     for line in metrics_text.splitlines():
         m = pat.match(line.strip())
         if m:
@@ -81,7 +117,6 @@ def now_iso() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime())
 
 def emit_header():
-    # canonical raw schema + a couple useful optional columns
     print("t_iso,t_sec,u_cmd,sent_total,u_ach,lat_p99,inflight,err_per_sec")
 
 def emit_row(t_iso: str, t_sec: float, u_cmd: float, sent_total: Optional[int], u_ach: Optional[float],
@@ -111,11 +146,12 @@ def sample_once(loadgen_url: str, prom_url: str, metric_name: str, quantile: str
     # returns: sent_total, inflight, err_psec, lat_p99, u_ach
     sent_total = inflight = err_psec = None
     lat_p99 = None
+    u_ach_reported = None
 
     # stats
     try:
         stats_text = http_get(loadgen_url + "/stats", timeout=timeout)
-        sent_total, inflight, err_psec = parse_stats(stats_text)
+        sent_total, inflight, err_psec, u_ach_reported = parse_stats(stats_text)
     except Exception:
         pass
 
@@ -126,7 +162,7 @@ def sample_once(loadgen_url: str, prom_url: str, metric_name: str, quantile: str
     except Exception:
         pass
 
-    # u_ach from sent_total
+    # u_ach: prefer Δsent_total/Δt, else fallback to reported throughput if available
     t_sec = time.time() - t0
     u_ach = None
     if sent_total is not None and prev_sent is not None and prev_t is not None:
@@ -134,6 +170,9 @@ def sample_once(loadgen_url: str, prom_url: str, metric_name: str, quantile: str
         ds = sent_total - prev_sent
         if dt > 0 and ds >= 0:
             u_ach = ds / dt
+
+    if u_ach is None and u_ach_reported is not None and u_ach_reported > 0:
+        u_ach = float(u_ach_reported)
 
     return sent_total, inflight, err_psec, lat_p99, u_ach
 
@@ -178,7 +217,6 @@ def run_step(args):
         set_rate(args.loadgen_url, args.rate_key, u, args.timeout)
         level_start = time.time()
 
-        # optional warmup (no logging)
         if args.warmup > 0:
             time.sleep(args.warmup)
 
@@ -201,12 +239,8 @@ def run_step(args):
             time.sleep(args.sample)
 
 def parse_levels(s: str) -> list[float]:
-    # accept "50 100 200" or "50,100,200"
     s = s.replace(",", " ")
-    out = []
-    for tok in s.split():
-        out.append(float(tok))
-    return out
+    return [float(tok) for tok in s.split() if tok.strip()]
 
 def main():
     ap = argparse.ArgumentParser()
@@ -214,7 +248,7 @@ def main():
     ap.add_argument("--prom-url", default="http://127.0.0.1:9464")
     ap.add_argument("--lat-metric", default="solana_transaction_latency_seconds")
     ap.add_argument("--lat-quantile", default="0.99")
-    ap.add_argument("--rate-key", default=DEFAULT_RATE_KEY, help="JSON key for POST /rate payload")
+    ap.add_argument("--rate-key", default=DEFAULT_RATE_KEY)
     ap.add_argument("--sample", type=float, default=2.0)
     ap.add_argument("--timeout", type=float, default=2.5)
 
@@ -233,10 +267,8 @@ def main():
 
     if args.mode == "steady":
         run_steady(args)
-    elif args.mode == "step":
-        run_step(args)
     else:
-        raise SystemExit(2)
+        run_step(args)
 
 if __name__ == "__main__":
     main()
