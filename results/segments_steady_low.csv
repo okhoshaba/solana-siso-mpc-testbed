@@ -1,0 +1,2 @@
+idx,u_cmd,dur_s,n,u_ach_med,sat_med,lat_med_s,lat_p95_s,err_med,inflight_max
+1,1200,900.496,448,1193.960382,0.994967,0.488327379,0.592151942,0.000000,16.000
