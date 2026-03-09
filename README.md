@@ -1,63 +1,115 @@
-# Solana SISO MPC Testbed (private cluster)
+# Solana SISO MPC Testbed
 
-This repository contains a reproducible testbed for studying a private Solana cluster as a controlled dynamical system.
-Current stage: **SISO identification** and baseline **ARX** model for the channel **u_cmd → u_ach**.
+A systematised and reproducible baseline package for controlled benchmarking in a private Solana environment.
 
-## What is implemented
-- Private Solana cluster on a VM (validator + RPC).
-- Metrics exporter (Prometheus exposition) from `solana-latency-research`.
-- Go-based transaction load generator (Fedora side) with HTTP control plane:
-  - `POST /rate` (set lambda)
-  - `GET /stats` (telemetry)
-- Dashboard (Dash/Plotly) for live monitoring and interactive control.
-- Step-test campaign scripts + dataset preparation for ARX identification.
+## Overview
 
-## Architecture (high-level)
-Fedora (controller host):
-- loadgen (HTTP :7070)
-- dashboard (HTTP :8050)
-- analysis scripts
+This repository contains the baseline research and engineering assets for a private Solana benchmarking environment oriented towards controlled load experiments, observability, and adaptive transaction-load control studies.
 
-VM (Solana plant):
-- solana-test-validator (RPC :8899)
-- exporter (Prometheus /metrics :9464)
+The project is not starting from zero. It already includes:
+- analysis scripts;
+- raw and derived data assets;
+- experimental scripts;
+- figures and result artefacts;
+- reproducibility metadata;
+- release metadata for archival publication;
+- early paper-related materials.
 
-Connectivity:
-- SSH tunnels from Fedora to VM forward ports 8899 and 9464.
+At the same time, several operational components are still being systematised and prepared for full public release. In particular, parts of the host-side load generation logic, dashboard-related code, and VM-side deployment workflow are being consolidated and documented as part of the baseline release effort.
 
-## Signals
-- **u_cmd(t)**: commanded transaction rate (lambda), set via `POST /rate`.
-- **u_ach(t)**: achieved rate, computed from `Δsent_total/Δt` (preferred) and/or `sent_per_sec`.
-- **y_lat(t)**: transaction confirmation latency `lat_p99` from Prometheus metric:
-  `solana_transaction_latency_seconds{quantile="0.99"}`.
-- **sat(t)**: saturation ratio `u_ach/u_cmd`.
+## Project 1 Scope
 
-## Quick start (Fedora)
-1) Start SSH tunnels:
-```bash
-bash scripts/ssh_tunnels.sh
+The current baseline release effort is focused on:
 
-Start loadgen:
+1. repository systematisation;
+2. documentation of the existing workflow;
+3. consolidation of baseline host-side and VM-side components;
+4. Ansible-based automation for single-node baseline deployment;
+5. GitHub publication and Zenodo archival release.
 
-# see loadgen/RUN_LOADGEN.md
+This phase is intentionally limited in scope. It does **not** aim to deliver:
+- the full multi-node private cluster framework;
+- a mature production-grade dashboard;
+- the full MIMO adaptive-control phase.
 
-Sanity check endpoints:
-bash scripts/sanity_check.sh
+Those items belong to a later follow-on phase.
 
-Run a step-test campaign:
-HOLD=60 SAMPLE=2 LEVELS_STR="50 150 300 450 600 800 1000 800 600 450 300 150 50" \
-bash scripts/step_test.sh | tee data/raw/step_test_$(date +%F_%H%M%S)_knee.csv
+## Repository Status
 
-Build ARX dataset and fit model:
-python3 analysis/fit_arx_stdlib.py data/processed/arx_dataset_knee.csv --na 2 --nb 2 --nk 1
+This repository already contains the analytical and data side of the baseline work. The purpose of the current release effort is to turn the existing codebase into a coherent and reproducible public baseline artefact.
 
-Reproducibility
-See REPRODUCIBILITY.md for exact versions, commands, and expected outputs.
+See:
+- [`PROJECT_STATUS.md`](PROJECT_STATUS.md)
+- [`ROADMAP.md`](ROADMAP.md)
+- [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
+- [`docs/REPOSITORY_MAP.md`](docs/REPOSITORY_MAP.md)
+- [`docs/BASELINE_WORKFLOW.md`](docs/BASELINE_WORKFLOW.md)
 
-License
-Code: Apache-2.0
-Data: CC-BY-4.0
+## Repository Structure
 
-How to cite
-See CITATION.cff.
+- `analysis/` — data processing, quality control, operating-point selection, plotting, and summary scripts
+- `data/` — raw and processed datasets, plus data documentation
+- `results/` — derived result artefacts, segment tables, summary outputs, and figures
+- `experiments/` — campaign-level experiment metadata and exported tables
+- `scripts/` — operational experiment scripts and collection utilities
+- `dashboard/` — dashboard-related baseline materials
+- `loadgen/` — host-side load generation baseline materials
+- `exporter/` — VM-side exporter and related baseline components
+- `automation/ansible/` — deployment automation for the single-node baseline
+- `paper/` — paper-related figures and preprint materials
+- `release/` — release notes and publication packaging materials
+
+## Baseline Workflow
+
+At a high level, the baseline workflow is:
+
+1. prepare the host and VM environment;
+2. bring up the single-node private Solana baseline;
+3. run baseline benchmark scenarios;
+4. collect and organise raw outputs;
+5. process results and generate figures;
+6. package artefacts for GitHub and Zenodo release.
+
+See [`docs/BASELINE_WORKFLOW.md`](docs/BASELINE_WORKFLOW.md) for details.
+
+## Reproducibility
+
+This repository is being prepared as a reproducible baseline release. Reproducibility currently covers:
+- project metadata;
+- data packaging;
+- figures;
+- experiment naming conventions;
+- release artefacts.
+
+The next step is to reduce manual infrastructure bring-up through Ansible-based automation for the single-node baseline environment.
+
+See:
+- [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
+- [`docs/VM_HOST_SETUP.md`](docs/VM_HOST_SETUP.md)
+- [`docs/ANSIBLE_PLAN.md`](docs/ANSIBLE_PLAN.md)
+
+## Public Release Plan
+
+The project uses two publication channels:
+
+- **GitHub** for the living repository, documentation, code, and release notes;
+- **Zenodo** for archival releases of reproducibility artefacts, datasets, figures, and release metadata suitable for citation.
+
+## Citation
+
+If you use this repository or its release artefacts, please consult [`CITATION.cff`](CITATION.cff) and the Zenodo release metadata.
+
+## Licence
+
+This repository is distributed under the terms of the licence included in [`LICENSE`](LICENSE).
+
+## Acknowledgement
+
+If baseline release support is awarded, the release materials may include the following factual acknowledgement:
+
+## Potential acknowledgement
+
+If this baseline release receives grant support, the following acknowledgement text may be added to the repository and release materials:
+
+> This work was supported by the Solana Foundation Ukraine Grants programme administered by Superteam Ukraine.
 
