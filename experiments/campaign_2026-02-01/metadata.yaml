@@ -1,0 +1,10 @@
+---
+campaign_id: campaign_2026-02-01
+status: placeholder-baseline-campaign
+scope: single-node-private-solana-baseline
+note: >
+  This campaign directory is retained as part of the baseline repository
+  structure. Detailed campaign metadata and populated outputs will be added
+  progressively during repository systematisation and release preparation.
+project_phase: project-1
+

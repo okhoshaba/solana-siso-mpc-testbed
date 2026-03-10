@@ -1,0 +1,12 @@
+---
+- name: Verify baseline deployment path
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Placeholder verification step
+      ansible.builtin.debug:
+        msg: >
+          Verification steps will be expanded during Project 1 in order to
+          support a reproducible single-node private Solana baseline release.

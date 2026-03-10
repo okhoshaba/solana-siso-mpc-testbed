@@ -1,0 +1,13 @@
+---
+- name: Prepare baseline VM environment
+  hosts: baseline_vm
+  gather_facts: true
+
+  tasks:
+    - name: Placeholder task for baseline VM preparation
+      ansible.builtin.debug:
+        msg: >
+          Baseline VM preparation will be systematised under Project 1.
+          This playbook marks the intended public entry point for the
+          single-node private Solana baseline deployment path.
+

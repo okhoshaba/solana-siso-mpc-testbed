@@ -1,0 +1,5 @@
+---
+project_name: solana-siso-mpc-testbed
+deployment_mode: single-node-baseline
+baseline_release_stage: project-1
+

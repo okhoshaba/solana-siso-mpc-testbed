@@ -1,0 +1,13 @@
+---
+- name: Prepare baseline host environment
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: Placeholder task for baseline host preparation
+      ansible.builtin.debug:
+        msg: >
+          Baseline host preparation will be systematised under Project 1.
+          This playbook marks the intended public entry point for host-side
+          baseline support steps.

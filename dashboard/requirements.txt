@@ -1,0 +1,4 @@
+# Baseline dashboard dependencies will be finalised during Project 1 release preparation.
+# This file is retained to document the planned dependency entry point for the
+# dashboard component of the private Solana benchmarking baseline.
+
