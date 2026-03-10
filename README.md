@@ -103,10 +103,6 @@ If you use this repository or its release artefacts, please consult [`CITATION.c
 
 This repository is distributed under the terms of the licence included in [`LICENSE`](LICENSE).
 
-## Acknowledgement
-
-If baseline release support is awarded, the release materials may include the following factual acknowledgement:
-
 ## Potential acknowledgement
 
 If this baseline release receives grant support, the following acknowledgement text may be added to the repository and release materials:
