@@ -1,6 +1,6 @@
-data/raw/
+# data/raw/
 # generated artifacts
-results/figures/
-paper/figures/
+# results/figures/
+# paper/figures/
 zenodo_*.tar.gz
 zenodo_*.sha256
