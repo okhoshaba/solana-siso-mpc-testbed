@@ -95,6 +95,18 @@ The project uses two publication channels:
 - **GitHub** for the living repository, documentation, code, and release notes;
 - **Zenodo** for archival releases of reproducibility artefacts, datasets, figures, and release metadata suitable for citation.
 
+## HP3C 2026 Paper Artifact
+
+This repository also contains a paper-specific artifact subset for the HP3C 2026 submission.
+
+See:
+
+- `paper/hp3c2026/README.md` — paper-facing artifact overview
+- `paper/hp3c2026/ARTIFACT_SCOPE.md` — scope of materials included in the paper
+- `paper/hp3c2026/EXPERIMENT_SETUP.md` — experiment setup used for the paper
+- `paper/hp3c2026/EXPERIMENTAL_VALIDITY.md` — threats to validity and confounding factors
+- `docs/MODEL_VARIABLES.md` — mapping from repository metrics to paper model variables
+
 ## Citation
 
 If you use this repository or its release artefacts, please consult [`CITATION.cff`](CITATION.cff) and the Zenodo release metadata.
