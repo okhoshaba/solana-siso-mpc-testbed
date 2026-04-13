@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this testbed, datasets, or code, please cite it as below."
-title: "Solana SISO MPC Testbed: Private Cluster, Load Generator, and Identification Datasets"
+title: "Solana SISO Testbed: HP3C 2026 Paper-Facing Artifact for Bottleneck Onset and Saturation Analysis"
 type: software
 authors:
   - given-names: "Oleksandr"
@@ -11,11 +11,12 @@ version: "0.1.0"
 date-released: "2026-02-14"
 url: "https://github.com/okhoshaba/solana-siso-mpc-testbed"
 license: "Apache-2.0"
+abstract: "Public artifact repository supporting HP3C 2026 paper-facing analysis of bottleneck onset and saturation behavior in a private Solana testbed. The repository provides curated data, synthesis tables, figures, and reproducibility-oriented materials for synthetic-load experiments."
 keywords:
   - Solana
   - blockchain
-  - performance
-  - control
-  - MPC
-  - ARX
-  - system identification
+  - performance modeling
+  - bottleneck analysis
+  - benchmarking
+  - reproducibility
+  - queueing

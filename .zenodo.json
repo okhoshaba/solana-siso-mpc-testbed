@@ -1,7 +1,7 @@
 {
-  "title": "Solana SISO MPC Testbed: Private Cluster + Loadgen + Identification Datasets",
+  "title": "Solana SISO Testbed: HP3C 2026 Paper-Facing Artifact for Bottleneck Onset and Saturation Analysis",
   "upload_type": "software",
-  "description": "Reproducible testbed and datasets for studying a private Solana cluster as a controlled dynamical system (SISO stage).",
+  "description": "Public artifact for HP3C 2026 supporting paper-facing analysis in a private Solana blockchain testbed. The archive captures synthetic-load experiments, the canonical paper-facing dataset path raw_selected -> processed -> results -> figures, and reproducibility-oriented materials for bottleneck onset and saturation behavior analysis.",
   "creators": [
     {
       "name": "Khoshaba, Oleksandr",
@@ -9,5 +9,5 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": ["Solana", "MPC", "control", "system identification", "ARX", "blockchain performance"]
+  "keywords": ["Solana", "blockchain", "performance modeling", "bottleneck analysis", "benchmarking", "reproducibility", "queueing"]
 }
