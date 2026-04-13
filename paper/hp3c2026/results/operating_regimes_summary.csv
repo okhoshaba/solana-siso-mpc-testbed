@@ -1,0 +1,5 @@
+regime,raw_file,processed_file,core_figure,used_in_main_text,confounder_note
+low,paper/hp3c2026/data/raw_selected/steady_low_2026-02-28_133431.csv,paper/hp3c2026/data/processed/segments_steady_low.csv,paper/hp3c2026/figures/steady_low_2026-02-28_133431__lat_p99_vs_u_cmd.png,yes,Minor background load may shift absolute latency slightly.
+mid,paper/hp3c2026/data/raw_selected/steady_mid_2026-02-28_183006.csv,paper/hp3c2026/data/processed/segments_mid.csv,paper/hp3c2026/figures/steady_mid_2026-02-28_183006__lat_p99_vs_u_cmd.png,supporting,Environment jitter can modestly perturb pre-knee saturation.
+knee,paper/hp3c2026/data/raw_selected/knee_step_2026-02-28_191122.csv,paper/hp3c2026/data/processed/segments_knee_final.csv,paper/hp3c2026/figures/knee_step_2026-02-28_191122__lat_p99_vs_u_cmd.png,yes,Step sweep remains sensitive to transient host variability.
+high,paper/hp3c2026/data/raw_selected/steady_high_3550_2026-02-28_195846.csv,paper/hp3c2026/data/processed/segments_high_3550.csv,paper/hp3c2026/figures/steady_high_3550_2026-02-28_195846__lat_p99_vs_u_cmd.png,supporting,High-load measurements may reflect residual background contention.

@@ -1,0 +1,5 @@
+regime,source_file,u_cmd,u_ach,sat_med,latency_proxy_s,paper_role,interpretation
+low,segments_steady_low.csv,1200,1193.960382,0.994967,0.592151942,main,near-linear regime
+mid,segments_mid.csv,1820,1795.233637,0.986392,0.505184330,supporting,pre-knee regime
+knee,segments_knee_final.csv,2800,2767.890355,0.988532,0.481982846,main,transition / bottleneck onset
+high,segments_high_3550.csv,3550,3367.848799,0.948690,0.497207926,supporting,degraded or saturation regime

@@ -1,5 +1,7 @@
 # Figure Manifest for HP3C 2026
 
+The canonical paper-facing path is `raw_selected -> processed -> results -> figures`.
+
 ## Core Figures
 
 Files staged in `paper/hp3c2026/figures`:

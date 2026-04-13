@@ -4,11 +4,16 @@
 
 The canonical paper-facing path for HP3C 2026 is:
 
-`raw_selected -> processed -> figures`
+`raw_selected -> processed -> results -> figures`
 
 Processed paper files are staged in `paper/hp3c2026/data/processed`.
 
-`paper/hp3c2026/results` is reserved for future synthesis outputs and is intentionally empty at this stage.
+Paper-facing synthesis outputs are staged in `paper/hp3c2026/results`:
+
+- `paper/hp3c2026/results/bottleneck_onset_summary.csv`
+- `paper/hp3c2026/results/operating_regimes_summary.csv`
+
+`bottleneck_onset_summary.csv` uses a transparent bottleneck-onset heuristic based on the first ascending knee point with `sat_med < 0.99`.
 
 ## Raw Files
 
@@ -41,6 +46,13 @@ Source paths:
 - `results/segments_mid.csv`
 - `results/segments_high_3550.csv`
 - `results/segments_knee_final.csv`
+
+## Results Files
+
+Paper-facing synthesis outputs staged in `paper/hp3c2026/results`:
+
+- `bottleneck_onset_summary.csv`
+- `operating_regimes_summary.csv`
 
 ## Figure Files
 
