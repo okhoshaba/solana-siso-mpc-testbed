@@ -1,7 +1,7 @@
 {
-  "title": "Solana SISO Testbed: HP3C 2026 Paper-Facing Artifact for Bottleneck Onset and Saturation Analysis",
+  "title": "Solana SISO Testbed: HP3C 2026 Paper-Facing Artifact for Bottleneck Onset and Saturation Behavior",
   "upload_type": "software",
-  "description": "Public artifact for HP3C 2026 supporting paper-facing analysis in a private Solana blockchain testbed. The archive captures synthetic-load experiments, the canonical paper-facing dataset path raw_selected -> processed -> results -> figures, and reproducibility-oriented materials for bottleneck onset and saturation behavior analysis.",
+  "description": "Archival paper-facing artifact for HP3C 2026 supporting queueing-inspired gray-box analysis of bottleneck onset and saturation behavior in a private Solana blockchain testbed. The archive captures the canonical synthetic-load evidence path raw_selected -> processed -> results -> figures together with synthesis outputs and reproducibility-oriented documentation.",
   "creators": [
     {
       "name": "Khoshaba, Oleksandr",
@@ -9,5 +9,5 @@
     }
   ],
   "license": "Apache-2.0",
-  "keywords": ["Solana", "blockchain", "performance modeling", "bottleneck analysis", "benchmarking", "reproducibility", "queueing"]
+  "keywords": ["Solana", "blockchain", "performance modeling", "bottleneck onset", "saturation behavior", "gray-box modeling", "paper-facing artifact", "benchmarking", "reproducibility", "queueing"]
 }

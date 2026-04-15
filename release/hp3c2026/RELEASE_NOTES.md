@@ -33,7 +33,3 @@ The archive is intended to support transparent inspection and paper-facing repro
 ## Citation Note
 
 Use the repository citation metadata for pre-release reference. Once the Zenodo DOI is minted, the Zenodo DOI should be preferred for archival citation.
-
-## Cross-Reference
-
-For repository-level Zenodo preparation context, see `release/zenodo_release_notes.md` and `docs/publication/ZENODO_RELEASE_CHECKLIST.md`.
