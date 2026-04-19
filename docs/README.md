@@ -10,11 +10,13 @@ Its purpose is to make the documentation tree readable as a structured system ra
 
 Start with these two files:
 
+- `REPOSITORY_STATUS.md`
 - `MASTER_ROADMAP.md`
 - `DOCUMENT_INDEX.md`
 
 These files provide:
 
+- the formal archival status and successor-repository split;
 - the full transition programme logic;
 - the dependency order of the stages;
 - the index of all major stage documents.

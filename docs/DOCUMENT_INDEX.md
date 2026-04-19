@@ -20,8 +20,15 @@ Recommended structure:
 
 Recommended top-level navigation files:
 
+- `docs/REPOSITORY_STATUS.md`
 - `docs/MASTER_ROADMAP.md`
 - `docs/DOCUMENT_INDEX.md`
+
+### `docs/REPOSITORY_STATUS.md`
+Purpose:
+
+- records the formal archival / sunset status of the repository;
+- explains the repository split into successor codebases.
 
 ## 3. Baseline Documentation
 

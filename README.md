@@ -1,10 +1,18 @@
 # Solana SISO MPC Testbed
 
+> [!IMPORTANT]
+> This repository is archived / sunset and is no longer under active development.
+> Ongoing work has been split into four focused successor repositories:
+> `solana-siso-loadgen-go`, `solana-siso-mpc-controller`, `solana-latency-research-private`, and `solana-siso-testbed`.
+> No new features should be added here.
+
 A systematised and reproducible baseline package for controlled benchmarking in a private Solana environment.
 
 ## Overview
 
 This repository contains the baseline research and engineering assets for a private Solana benchmarking environment oriented towards controlled load experiments, observability, and adaptive transaction-load control studies.
+
+It is preserved as a historical repository for earlier stages of the project and for reproducibility, citation, and technical reference. Active development has moved to successor repositories with narrower and more explicit scope boundaries.
 
 The project is not starting from zero. It already includes:
 - analysis scripts;
@@ -17,7 +25,36 @@ The project is not starting from zero. It already includes:
 
 At the same time, several operational components are still being systematised and prepared for full public release. In particular, parts of the host-side load generation logic, dashboard-related code, and VM-side deployment workflow are being consolidated and documented as part of the baseline release effort.
 
-## Project 1 Scope
+## Archival Status
+
+This repository is no longer the main development location for the project.
+
+Development was stopped here because the original monolithic repository had grown to cover several distinct concerns:
+- synthetic load generation;
+- MPC and controller-oriented logic;
+- latency research for private Solana environments;
+- infrastructure and bring-up for the private testbed.
+
+These concerns are now being maintained in separate repositories so that each codebase can evolve with clearer ownership, structure, and release boundaries.
+
+This repository remains valuable for:
+- historical context on earlier project stages;
+- reproducibility of prior experiments and benchmark artefacts;
+- citation of earlier repository and release states;
+- inspection of the original integrated baseline layout.
+
+## Successor Repository Mapping
+
+The previous monolithic scope is being superseded as follows:
+
+- `loadgen/` and host-side synthetic benchmarking concerns move to `solana-siso-loadgen-go`
+- MPC-related logic, controller structure, dashboard work, batch workflows, configs, scripts, docs, and tests move to `solana-siso-mpc-controller`
+- latency research adapted for private Solana experiments moves to `solana-latency-research-private`
+- infrastructure, Dockerfiles, compose files, provisioning, network configuration, image build pipeline, startup checks, healthchecks, and private Solana environment bring-up move to `solana-siso-testbed`
+
+This repository should not receive new feature development. Only limited archival, citation, or reproducibility-oriented maintenance should be expected if strictly necessary.
+
+## Historical Project 1 Scope
 
 The current baseline release effort is focused on:
 
@@ -36,7 +73,10 @@ Those items belong to a later follow-on phase.
 
 ## Repository Status
 
-This repository already contains the analytical and data side of the baseline work. The purpose of the current release effort is to turn the existing codebase into a coherent and reproducible public baseline artefact.
+This repository contains the analytical and data side of the baseline work together with earlier integrated implementation materials. It is now retained as an archival baseline artefact rather than an active development repository.
+
+See also:
+- [`docs/REPOSITORY_STATUS.md`](docs/REPOSITORY_STATUS.md)
 
 See:
 - [`PROJECT_STATUS.md`](PROJECT_STATUS.md)
@@ -92,7 +132,7 @@ See:
 
 The project uses two publication channels:
 
-- **GitHub** for the living repository, documentation, code, and release notes;
+- **GitHub** for repository hosting, documentation, code history, and release notes associated with earlier project stages;
 - **Zenodo** for archival releases of reproducibility artefacts, datasets, figures, and release metadata suitable for citation.
 
 ## HP3C 2026 Paper Artifact
@@ -109,7 +149,7 @@ See:
 
 ## Citation
 
-If you use this repository or its release artefacts, please consult [`CITATION.cff`](CITATION.cff) and the Zenodo release metadata.
+If you use this repository or its release artefacts, please consult [`CITATION.cff`](CITATION.cff) and the Zenodo release metadata. The archival status of the repository does not change its citation value for earlier project stages or released artefacts.
 
 ## Licence
 
@@ -120,4 +160,3 @@ This repository is distributed under the terms of the licence included in [`LICE
 If this baseline release receives grant support, the following acknowledgement text may be added to the repository and release materials:
 
 > This work was supported by the Solana Foundation Ukraine Grants programme administered by Superteam Ukraine.
-
